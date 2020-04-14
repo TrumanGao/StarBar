@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>添加删除权限</title>
+	</head>
+	<style type="text/css">
+		select {
+			border: 1px solid black;
+			width: 100px;
+			height: 300px;
+			overflow: scroll;
+			font-size: 20px;
+		}
+
+		#sel1 {
+			margin-left: 10%;
+			float: left;
+		}
+
+		#sel2 {
+			margin-right: 10%;
+			float: right;
+		}
+
+		option {
+			line-height: 0px;
+			border-bottom: 1px solid lightgrey;
+			padding-left: 10px;
+		}
+
+		.box {
+			width: 100px;
+			position: absolute;
+			left: 0;
+			right: 0;
+			margin: auto;
+			top: 100px;
+		}
+
+		button {
+			display: block;
+			margin-top: 15px;
+		}
+	</style>
+	<body>
+		<select id="sel1" multiple>
+			<option value="">添加</option>
+			<option value="">删除</option>
+			<option value="">修改</option>
+			<option value="">暂停</option>
+			<option value="">注销</option>
+		</select>
+		<div class="box">
+			<button>选中</button>
+			<button>取消</button>
+			<button>全部选中</button>
+			<button>全部取消</button>
+		</div>
+		<select id="sel2" multiple>
+		</select>
+	</body>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+	<script type="text/javascript">
+		// 获取btn1,添加点击事件
+		$(".box button").eq(0)
+			.click(
+				function() {
+					// 获取sel1选中的option，移动到sel2;
+					$("#sel1 option:selected").appendTo("#sel2")
+						// 取消选中状态
+						.prop("selected", false);
+				}
+			)
+
+		// 获取btn2,添加点击事件
+		$(".box button").eq(1)
+			.click(
+				function() {
+					// 获取sel2选中的option,移动到sel1;
+					$("#sel2 option:selected").appendTo("#sel1")
+						// 取消选中状态
+						.prop("selected", false);
+				}
+			)
+
+		// 获取btn3,添加点击事件
+		$(".box button").eq(2)
+			.click(
+				function() {
+					// 获取sel1里的全部option,移动到sel2;
+					$("#sel1").children("option").appendTo("#sel2")
+						// 取消选中状态
+						.prop("selected", false);
+				}
+			)
+
+		// 获取btn3,添加点击事件
+		$(".box button").eq(3)
+			.click(
+				function() {
+					// 获取sel2里的全部option,移动到sel1;
+					$("#sel2").children("option").appendTo("#sel1")
+						// 取消选中状态
+						.prop("selected", false);
+				}
+			)
+	</script>
+</html>

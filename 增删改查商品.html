@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>增删改查商品</title>
+	</head>
+	<style type="text/css">
+		table,
+		th,
+		td {
+			border: 1px solid black;
+			border-collapse: collapse;
+			padding: 5px 10px;
+		}
+
+		label {
+			width: 70px;
+			display: inline-block;
+		}
+
+		.input {
+			margin: 5px;
+		}
+
+		#btn {
+			width: 100px;
+			margin: 5px auto;
+			display: block;
+		}
+
+		#box2 {
+			text-align: center;
+		}
+	</style>
+	<body>
+		<div id="box1">
+			<div class="input">
+				<label for="text1">编号</label>
+				<input type="text" name="" id="text1" value="" />
+			</div>
+			<div class="input">
+				<label for="text2">商品名称</label>
+				<input type="text" name="" id="text2" value="" />
+			</div>
+			<div class="input">
+				<label for="text3">单价</label>
+				<input type="text" name="" id="text3" value="" />
+			</div>
+			<div class="input">
+				<label for="text4">数量</label>
+				<input type="text" name="" id="text4" value="" />
+			</div>
+		</div>
+		<button id="btn">添加</button>
+		<div id="box2">
+		</div>
+	</body>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+	<script type="text/javascript">
+		// 表头数据
+		var heads = ['编号', '商品名称', '单价', '数量', '小计', '操作'];
+		// 表体数据
+		var bodys = [{
+				pid: 10001,
+				pName: '自行车',
+				price: 100,
+				count: 10
+			},
+			{
+				pid: 10002,
+				pName: '电动车',
+				price: 3000,
+				count: 10
+			},
+			{
+				pid: 10003,
+				pName: '摩托车',
+				price: 10000,
+				count: 10
+			},
+			{
+				pid: 10004,
+				pName: '汽车',
+				price: 20000,
+				count: 10
+			}
+		];
+
+		// 创建表格,追加到document里
+		var $oTable = $("<table></table>");
+		$oTable.appendTo("#box2");
+
+		var $oThead = $("<thead></thead>");
+		$oThead.appendTo($oTable);
+
+		var $ohTr = $("<tr></tr>");
+		$ohTr.appendTo($oThead);
+
+		// 循环遍历数组heads(item 是数组中的每一项，index是该项的索引)，放入th标签
+		heads.forEach(function(item) {
+			var $ohTh = $("<th>" + item + "</th>");
+			$ohTh.appendTo($ohTr);
+		})
+
+		var $oTbody = $("<tbody></tbody>");
+		$oTbody.appendTo($oTable);
+
+		// 循环遍历数组bodys，把每个对象的每个属性值放入单元格
+		bodys.forEach(function(item) {
+			var $obTr = $("<tr><td>" + item.pid +
+				"</td><td>" + item.pName +
+				"</td><td>" + item.price +
+				"</td><td>" + item.count +
+				"</td><td>" + item.price * item.count +
+				"</td><td><a href='javascript:'>删除</a></td><tr>")
+			$obTr.appendTo($oTbody);
+		})
+
+		// 添加点击事件
+		$("#btn").click(function() {
+			if ($("#text1").val() === "" || $("#text2").val() === "" || $("#text3").val() === "" || $("#text4").val() === "") {
+				alert("请填写完整")
+			} else {
+				var $obTr = $("<tr>" +
+					"<td>" + $("#text1").val() + "</td>" +
+					"<td>" + $("#text2").val() + "</td>" +
+					"<td>" + $("#text3").val() + "</td>" +
+					"<td>" + $("#text4").val() + "</td>" +
+					"<td>" + $("#text3").val() * $("#text4").val() + "</td>" +
+					"<td><a href='javascript:'>删除</a></td>" +
+					"</tr>");
+				$obTr.appendTo($oTbody);
+				// 清空文本框
+				$(".input input").val("");
+			}
+		})
+
+		// // 用DOM事件委托方法添加删除功能
+		// $oTbody.click(function (e) {
+		// 	var t = e.target;
+		// 	if(t.nodeName = "A"){
+		// 		if(confirm("您确定删除吗？")){
+		// 			// 把jQuery对象转化成DOM对象,用DOM方法删除行
+		// 			// console.log($oTbody[0]);
+		// 			$oTbody[0].removeChild(t.parentNode.parentNode);
+		// 			// 编辑器报错：Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.// t.parentNode.parentNode不是$oTbody[0]的子级？
+		// 			// 浏览器未报错
+		// 		}
+		// 	}
+		// })
+
+		// 用jQuery事件委托方法添加删除功能
+		$("tbody").on("click", "a", function() {
+			if (confirm("您确定删除吗？") === true) {
+				$(this)
+					.parent("td")
+					.parent("tr")
+					.remove()
+			}
+		})
+	</script>
+</html>

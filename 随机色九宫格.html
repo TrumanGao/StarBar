@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>随机色九宫格</title>
+	</head>
+	<style>
+		* {
+        padding: 0;
+        margin: 0;
+    }
+    .wrap {
+        width: 180px;
+        background-color: black;
+        padding: 2px;
+        margin: 50px auto 20px auto;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .block {
+        width: 60px;
+        height: 60px;
+        background-color: white;
+        border: 2px solid black;
+        box-sizing: border-box;
+    }
+	button{
+		width:100px;
+		height:30px;
+		line-height: 30px;
+		color:white;
+		background-color: darkcyan;
+		border:none;
+		border-radius: 5px;
+		margin:10px auto;
+		display: block;
+	}
+</style>
+	<body>
+		<div class="wrap">
+			<div class='block'></div>
+			<div class='block'></div>
+			<div class='block'></div>
+			<div class='block'></div>
+			<div class='block'></div>
+			<div class='block'></div>
+			<div class='block'></div>
+			<div class='block'></div>
+			<div class='block'></div>
+		</div>
+		<button class="btnStart" type="button">开始闪烁</button>
+		<button class="btnStop" type="button">停止闪烁</button>
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+		<script>
+			var startBlink;
+			let blink = function() {
+				// 先重置所有方块背景色
+				$('.block').css('backgroundColor', 'white')
+				// 生成三个随机数，要求在0-9之间，且不能重复，放入arr中
+				let range = $('.block').length;
+				let arr = []
+				while (arr.length < 3) {
+					let num = Math.floor(Math.random() * range)
+					while (arr.indexOf(num) == -1) {
+						arr.push(num)
+					}
+				}
+				console.log(arr)
+				// 生成随机背景色，遍历arr添加给方块
+				arr.forEach((item, index) => {
+					let [r, g, b] = [Math.ceil(Math.random() * 255), Math.ceil(Math.random() * 255), Math.ceil(Math.random() * 255)]
+					$('.block').eq(item).css('backgroundColor', 'rgb(' + r + ',' + g + ',' + b + ')')
+				})
+			}
+
+			$('button').eq(0).click(function() {
+				clearInterval(startBlink)
+				startBlink = setInterval(function() {
+					blink()
+				}, 500)
+			})
+
+			$('button').eq(1).click(function() {
+				clearInterval(startBlink)
+			});
+		</script>
+	</body>
+</html>
